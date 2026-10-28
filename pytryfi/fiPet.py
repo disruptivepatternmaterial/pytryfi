@@ -11,6 +11,18 @@ LOGGER = logging.getLogger(__name__)
 class FiPet(object):
     def __init__(self, petId):
         self._petId = petId
+        # Location data arrives lazily via setCurrentLocation(); until the first
+        # fix these must exist so the @property getters return None instead of
+        # raising AttributeError (HA polls them every update cycle).
+        self._activityType = None
+        self._areaName = None
+        self._currLongitude = None
+        self._currLatitude = None
+        self._currStartTime = None
+        self._currPlaceName = None
+        self._currPlaceAddress = None
+        self._connectedTo = None
+        self._lastUpdated = None
 
     def setPetDetailsJSON(self, petJSON: dict):
         self._name = petJSON.get('name')
